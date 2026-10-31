@@ -129,9 +129,9 @@ object Renderer3D {
         }
 
         // ---- 主要几何：按深度排序后绘制（画家算法） ----
-        val ambDay = 0.58f
+        val ambDay = 0.48f
         val ambNight = 0.14f
-        val sunStrength = 0.75f
+        val sunStrength = 0.62f
 
         val orderList = ArrayList<Pair<Float, Face>>()
         for (f in geo.faces) {
