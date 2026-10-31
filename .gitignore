@@ -1,0 +1,22 @@
+# Gradle
+.gradle/
+build/
+app/build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local configuration (may contain machine-specific paths)
+local.properties
+
+# Keystores — never commit
+*.jks
+*.keystore
+
+# Logs / OS
+*.log
+.DS_Store
