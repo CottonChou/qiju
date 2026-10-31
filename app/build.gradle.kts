@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.cottonchou.hometwin"
+    namespace = "com.cottonchou.qiju"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.cottonchou.hometwin"
+        applicationId = "com.cottonchou.qiju"
         minSdk = 26
         targetSdk = 35
-        versionCode = 4
-        versionName = "0.2.2"
+        versionCode = 5
+        versionName = "0.3.0"
     }
 
     buildTypes {
@@ -47,5 +47,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    testImplementation("junit:junit:4.13.2")
 }

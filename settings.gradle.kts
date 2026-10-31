@@ -16,5 +16,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "HomeTwin"
+rootProject.name = "Qiju"
 include(":app")

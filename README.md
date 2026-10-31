@@ -1,6 +1,4 @@
-# HomeTwin · 家的数字孪生
-
-深蓝夜色风格的智能家居面板：**3D 户型 + 光影 + 昼夜切换 + 可编辑户型 + Home Assistant 真实数据**。
+# 栖居 Qiju · 家的数字孪生
 
 <p align="center">
   <img src="docs/screenshots/night.png" width="240" alt="夜晚 3D 户型，灯光点亮暖光" />
@@ -8,7 +6,10 @@
   <img src="docs/screenshots/editor.png" width="240" alt="户型编辑器" />
 </p>
 
-Kotlin + Jetpack Compose 原生实现（当前为 Android 版），3D 渲染是自写的轻量软件渲染器——Canvas 透视投影 + 画家算法 + Lambert 面光照，无任何第三方 3D 库。户型数据格式参考 [0xProbabillity/house-control](https://github.com/0xProbabillity/house-control) 的 plan.json 思路。
+**栖居**是一个深蓝夜色风格的智能家居面板：**3D 户型 + 光影 + 昼夜切换 + 可编辑户型 + Home Assistant 真实数据**。
+名字取自「诗意地栖居」——让家不只是被控制的对象，而是能被看见、被感受的空间。
+
+Kotlin + Jetpack Compose 原生实现（当前为 Android 版），3D 渲染是自写的轻量软件渲染器——Canvas 透视投影 + 画家算法 + Lambert 面光照，**无任何第三方 3D 库**。
 
 ## 效果展示
 
@@ -26,13 +27,14 @@ Kotlin + Jetpack Compose 原生实现（当前为 Android 版），3D 渲染是�
 - **四 Tab**：全屋（3D + 场景 + 房间筛选 + 设备卡片）/ 设备（按房间分组）/ 日历 / 我的
 - **设备控制**：点 3D 场景或卡片打开详情弹层（电源、亮度、空调温度），状态实时反映到 3D 灯光
 - **场景**：归家 / 离家 / 睡眠，批量开关设备
-- **户型编辑器**（我的 → 户型编辑器）：
+- **户型编辑器**：
   - 房间为轴对齐矩形（L 形拆成两个矩形拼接）
   - 拖动移动房间、选中后拖四角调整尺寸，0.1m 网格吸附
   - 添加/删除房间、改名称/类型/地板颜色
   - 门、窗挂房间边（北/东/南/西），可拖动位置、调宽度
   - 设备可添加、拖动摆放、改所属房间
   - plan.json 存本地，支持导出剪贴板 / 导入 / 恢复默认
+- **质量**：核心逻辑（场景构建、户型解析、实体匹配）有单元测试覆盖
 
 ## Home Assistant 接入
 
@@ -53,8 +55,6 @@ Kotlin + Jetpack Compose 原生实现（当前为 Android 版），3D 渲染是�
 1. **Nabu Casa**：HA 设置面板一键开通的官方云（付费），得到 `https://xxx.ui.nabu.casa`
 2. **Cloudflare Tunnel / frp**：自建隧道（免费），把 HA 的 8123 端口映射到自己的 https 域名
 3. **Tailscale / WireGuard**：手机装 VPN 组成虚拟局域网，远程地址留空，仍用局域网地址
-
-实现说明：`HaClient.probe()` 先探测（200 可用 / 401 令牌错 / -1 不可达），WebSocket 的 https→wss 转换已内置；Manifest 已开 `usesCleartextTraffic` 以支持局域网 http 地址。
 
 ## plan.json 格式
 
@@ -77,20 +77,22 @@ Kotlin + Jetpack Compose 原生实现（当前为 Android 版），3D 渲染是�
 ```bash
 export JAVA_HOME=<jdk17+>
 export ANDROID_HOME=<android-sdk>
-./gradlew assembleDebug   # 产物: app/build/outputs/apk/debug/app-debug.apk
+./gradlew assembleDebug          # APK: app/build/outputs/apk/debug/
+./gradlew testDebugUnitTest      # 运行单元测试
 ```
 
-> 国内网络加速：Gradle 发行版可换腾讯镜像（`mirrors.cloud.tencent.com/gradle`），Maven 依赖走阿里云镜像（本仓库 `settings.gradle.kts` 已内置，排在 google()/mavenCentral() 之前）。
+> 国内网络加速：Gradle 发行版可换腾讯镜像（`mirrors.cloud.tencent.com/gradle`），Maven 依赖走阿里云镜像（本仓库 `settings.gradle.kts` 已内置）。
 
 ## 目录
 
 ```
-app/src/main/java/com/cottonchou/hometwin/
-├── data/       PlanModels（户型模型）、PlanRepository（plan.json 存取）、HomeViewModel
-│   └── ha/     HaClient（HA REST + WebSocket 客户端）
+app/src/main/java/com/cottonchou/qiju/
+├── data/       PlanModels（户型模型）、PlanRepository（plan.json 存取，Moshi）、HomeViewModel
+│   └── ha/     HaClient（HA REST + WebSocket）、EntityMatcher（实体自动匹配）
 ├── engine/     SceneBuilder（plan → 网格）、Renderer3D（投影/光照/光晕/标记）
 ├── ui/         MainActivity（四 Tab）、HomeScreen、Home3DView、DeviceDetailSheet、Devices/Calendar/Profile
 └── ui/editor/  EditorScreen + EditorPanel（2D 户型编辑器）
+app/src/test/   SceneBuilderGeometry / PlanJsonRoundTrip / EntityMatcher / StatusText 单元测试
 ```
 
 ## Roadmap
@@ -99,7 +101,22 @@ app/src/main/java/com/cottonchou/hometwin/
 - [ ] 门窗传感器联动灯光、自动化（日历 Tab 的日程目前是本地示例）
 - [ ] 多楼层支持（`home.floorHeight` 已预留）
 - [ ] HA 长连接前台保活与推送
+- [ ] 更多家具/装饰模型
 
 ## License
 
 [MIT](LICENSE)
+
+---
+
+## 参考（References）
+
+本项目在设计与实现过程中参考了以下优秀的开源项目与工具，感谢它们的作者：
+
+- **[0xProbabillity/house-control](https://github.com/0xProbabillity/house-control)** —— Mac 菜单栏 3D 户型控制。本项目的 plan.json 数据模型（矩形房间、自动共享墙、门窗、设备绑定实体）直接借鉴了它的思路。
+- **[adizanni/floor3d-card](https://github.com/adizanni/floor3d-card)** —— Home Assistant 的 "Your Home Digital Twin" 3D 面板卡片（Three.js + OBJ 模型）。
+- **[Mastershort/neonplan3d](https://github.com/Mastershort/neonplan3d)** —— HA 的 3D 户型面板卡片，内置浏览器端户型编辑器（房间/墙/门窗/家具），本项目的编辑器功能与之对标。
+- **[pkozul/ha-floorplan](https://github.com/pkozul/ha-floorplan)** —— HA 经典 2D SVG floorplan 面板，实体状态映射到图形的交互设计参考。
+- **[Sweet Home 3D](https://github.com/sweethome3d)**（[官网](http://www.sweethome3d.com/)）—— 开源室内设计工具，其「轴对齐矩形房间、L 形拆分」的建模约定是本项目编辑器遵循的规范。
+
+界面的视觉风格（深蓝夜色、灯光暖光、四 Tab 布局）参考了 Home Assistant 社区流传的 floorplan 面板设计。

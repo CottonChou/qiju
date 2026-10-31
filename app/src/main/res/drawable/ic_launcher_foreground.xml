@@ -4,10 +4,62 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path
-        android:fillColor="#5B8DEF"
-        android:pathData="M54,28 L82,52 L76,52 L76,78 L62,78 L62,62 L46,62 L46,78 L32,78 L32,52 L26,52 Z" />
+
+    <!-- 屋后暖光晕 -->
     <path
         android:fillColor="#F5B85C"
-        android:pathData="M48,68 h12 v10 h-12 z" />
+        android:fillAlpha="0.10"
+        android:pathData="M54,52 m-27,0 a27,27 0 1,0 54,0 a27,27 0 1,0 -54,0" />
+
+    <!-- 从窗口洒出的光束 -->
+    <path
+        android:fillColor="#F5B85C"
+        android:fillAlpha="0.15"
+        android:pathData="M59,67 L84,93 L42,93 Z" />
+
+    <!-- 屋身 -->
+    <path
+        android:fillColor="#1B2A55"
+        android:strokeColor="#8FB0FF"
+        android:strokeWidth="2.5"
+        android:pathData="M34,55 L34,79 L74,79 L74,55 L54,37 Z" />
+
+    <!-- 屋顶 -->
+    <path
+        android:strokeColor="#5B8DEF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M28,58 L54,34 L80,58" />
+
+    <!-- 烟囱 -->
+    <path
+        android:fillColor="#2A3A6E"
+        android:pathData="M66,42 h6 v8 h-6 z" />
+
+    <!-- 暖光窗 -->
+    <path
+        android:fillColor="#F5B85C"
+        android:pathData="M47,61 h14 v14 h-14 z" />
+    <path
+        android:fillColor="#FFE3A6"
+        android:pathData="M47,61 h14 v5.5 h-14 z" />
+    <!-- 窗棂 -->
+    <path
+        android:strokeColor="#1B2A55"
+        android:strokeWidth="1.6"
+        android:pathData="M54,61 L54,75 M47,68 L61,68" />
+
+    <!-- 星点 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.85"
+        android:pathData="M31,29 m-1.6,0 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.5"
+        android:pathData="M79,25 m-1.1,0 a1.1,1.1 0 1,0 2.2,0 a1.1,1.1 0 1,0 -2.2,0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.35"
+        android:pathData="M72,33 m-0.9,0 a0.9,0.9 0 1,0 1.8,0 a0.9,0.9 0 1,0 -1.8,0" />
 </vector>
